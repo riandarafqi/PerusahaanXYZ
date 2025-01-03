@@ -1,40 +1,31 @@
-CREATE TABLE "Departments"(
-    "IdDepartments" BIGINT NOT NULL,
+CREATE TABLE "Departments" (
+    "IdDepartments" SERIAL PRIMARY KEY,
     "NamaDepartment" VARCHAR(255) NOT NULL,
     "AlamatDepartments" VARCHAR(255) NOT NULL
 );
-ALTER TABLE
-    "Departments" ADD CONSTRAINT "departments_iddepartments_primary" PRIMARY KEY("IdDepartments");
-CREATE TABLE "Karyawan"(
-    "IdKaryawan" BIGINT NOT NULL,
-    "IdDepartments" BIGINT NOT NULL,
+
+CREATE TABLE "Karyawan" (
+    "IdKaryawan" SERIAL PRIMARY KEY,
+    "IdDepartments" INT NOT NULL,
     "NamaKaryawan" VARCHAR(255) NOT NULL,
     "TanggalLahir" DATE NOT NULL,
-    "Nomor_Telepon" INT NOT NULL,
-    "Alamat" VARCHAR(255) NOT NULL
+    "NomorTelepon" VARCHAR(15) NOT NULL, -- Mengganti INT ke VARCHAR untuk nomor telepon
+    "Alamat" VARCHAR(255) NOT NULL,
+    CONSTRAINT "FK_Departments_Karyawan" FOREIGN KEY ("IdDepartments") REFERENCES "Departments"("IdDepartments")
 );
-ALTER TABLE
-    "Karyawan" ADD CONSTRAINT "karyawan_idkaryawan_primary" PRIMARY KEY("IdKaryawan");
-CREATE TABLE "Jabatan"(
-    "IdJabatan" BIGINT NOT NULL,
-    "IdKaryawan" BIGINT NOT NULL,
+
+CREATE TABLE "Jabatan" (
+    "IdJabatan" SERIAL PRIMARY KEY,
+    "IdKaryawan" INT NOT NULL,
     "NamaJabatan" VARCHAR(255) NOT NULL,
-    "StatusJabatan" NVARCHAR(255) CHECK
-        ("StatusJabatan" IN(N'')) NOT NULL
+    "StatusJabatan" VARCHAR(50) NOT NULL CHECK ("StatusJabatan" IN ('Aktif', 'Tidak Aktif')),
+    CONSTRAINT "FK_Karyawan_Jabatan" FOREIGN KEY ("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan")
 );
-ALTER TABLE
-    "Jabatan" ADD CONSTRAINT "jabatan_idjabatan_primary" PRIMARY KEY("IdJabatan");
-CREATE TABLE "Gaji"(
-    "IdGaji" BIGINT NOT NULL,
-    "IdKaryawan" BIGINT NOT NULL,
+
+CREATE TABLE "Gaji" (
+    "IdGaji" SERIAL PRIMARY KEY,
+    "IdKaryawan" INT NOT NULL,
     "JumlahGaji" BIGINT NOT NULL,
-    "TanggalPengajian" DATE NOT NULL
+    "TanggalPengajian" DATE NOT NULL,
+    CONSTRAINT "FK_Karyawan_Gaji" FOREIGN KEY ("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan")
 );
-ALTER TABLE
-    "Gaji" ADD CONSTRAINT "gaji_idgaji_primary" PRIMARY KEY("IdGaji");
-ALTER TABLE
-    "Karyawan" ADD CONSTRAINT "karyawan_iddepartments_foreign" FOREIGN KEY("IdDepartments") REFERENCES "Departments"("IdDepartments");
-ALTER TABLE
-    "Gaji" ADD CONSTRAINT "gaji_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
-ALTER TABLE
-    "Jabatan" ADD CONSTRAINT "jabatan_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
