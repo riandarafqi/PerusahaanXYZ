@@ -1,31 +1,41 @@
-CREATE TABLE "Departments" (
-    "IdDepartments" SERIAL PRIMARY KEY,
-    "NamaDepartment" VARCHAR(255) NOT NULL,
-    "AlamatDepartments" VARCHAR(255) NOT NULL
-);
+CREATE OR ALTER PROCEDURE ManageKaryawan
+    @action_type NVARCHAR(10),
+    @id_karyawan INT = NULL,
+    @id_departments INT = NULL,
+    @nama_karyawan NVARCHAR(255) = NULL,
+    @tanggal_lahir DATE = NULL,
+    @nomor_telepon NVARCHAR(15) = NULL,
+    @alamat NVARCHAR(255) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-CREATE TABLE "Karyawan" (
-    "IdKaryawan" SERIAL PRIMARY KEY,
-    "IdDepartments" INT NOT NULL,
-    "NamaKaryawan" VARCHAR(255) NOT NULL,
-    "TanggalLahir" DATE NOT NULL,
-    "NomorTelepon" VARCHAR(15) NOT NULL, -- Mengganti INT ke VARCHAR untuk nomor telepon
-    "Alamat" VARCHAR(255) NOT NULL,
-    CONSTRAINT "FK_Departments_Karyawan" FOREIGN KEY ("IdDepartments") REFERENCES "Departments"("IdDepartments")
-);
+    IF @action_type = 'ADD'
+    BEGIN
+        INSERT INTO Karyawan (IdDepartments, NamaKaryawan, TanggalLahir, Nomor_Telepon, Alamat)
+        VALUES (@id_departments, @nama_karyawan, @tanggal_lahir, @nomor_telepon, @alamat);
+    END
+    ELSE IF @action_type = 'UPDATE'
+    BEGIN
+UPDATE Karyawan
+SET 
+    IdDepartments = ISNULL(@id_departments, IdDepartments),
+    NamaKaryawan = ISNULL(@nama_karyawan, NamaKaryawan),
+    TanggalLahir = ISNULL(@tanggal_lahir, TanggalLahir),
+    Nomor_Telepon = ISNULL(@nomor_telepon, Nomor_Telepon),
+    Alamat = ISNULL(@alamat, Alamat)
+WHERE IdKaryawan = @id_karyawan;    END
+    ELSE IF @action_type = 'DELETE'
+    BEGIN
+        DELETE FROM Karyawan WHERE IdKaryawan = @id_karyawan;
+    END
+    ELSE
+    BEGIN
+        THROW 50000, 'Invalid action_type: valid values are ADD, UPDATE, DELETE', 1;
+    END
+END;
 
-CREATE TABLE "Jabatan" (
-    "IdJabatan" SERIAL PRIMARY KEY,
-    "IdKaryawan" INT NOT NULL,
-    "NamaJabatan" VARCHAR(255) NOT NULL,
-    "StatusJabatan" VARCHAR(50) NOT NULL CHECK ("StatusJabatan" IN ('Aktif', 'Tidak Aktif')),
-    CONSTRAINT "FK_Karyawan_Jabatan" FOREIGN KEY ("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan")
-);
-
-CREATE TABLE "Gaji" (
-    "IdGaji" SERIAL PRIMARY KEY,
-    "IdKaryawan" INT NOT NULL,
-    "JumlahGaji" BIGINT NOT NULL,
-    "TanggalPengajian" DATE NOT NULL,
-    CONSTRAINT "FK_Karyawan_Gaji" FOREIGN KEY ("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan")
-);
+EXEC ManageKaryawan @action_type = 'DELETE', @id_karyawan = 1;
+EXEC ManageKaryawan @action_type = 'UPDATE', 
+                    @id_karyawan = 1, 
+                    @nama_karyawan = 'John Smith';
