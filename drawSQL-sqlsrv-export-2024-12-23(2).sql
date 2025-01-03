@@ -38,4 +38,4 @@ END;
 EXEC ManageKaryawan @action_type = 'DELETE', @id_karyawan = 1;
 EXEC ManageKaryawan @action_type = 'UPDATE', 
                     @id_karyawan = 1, 
-                    @nama_karyawan = 'John Smith';
+                    @nama_karyawan = 'John Smith';git p
