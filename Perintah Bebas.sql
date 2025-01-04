@@ -12,8 +12,10 @@ LEFT JOIN
 ORDER BY 
     Karyawan.NamaKaryawan ASC;
 
+
 SELECT * FROM Karyawan
 WHERE NamaKaryawan LIKE 'd%';
+
 
 SELECT * 
 FROM Karyawan
@@ -22,6 +24,15 @@ ORDER BY
     WHEN Alamat LIKE '%Bandung%' THEN 1
     ELSE 2
   END;
+
+
+SELECT * FROM Karyawan
+WHERE Alamat LIKE '%B%'
+
+SELECT Alamat FROM Karyawan
+UNION
+SELECT AlamatDepartments FROM Departments
+ORDER BY Alamat
 
 
  
