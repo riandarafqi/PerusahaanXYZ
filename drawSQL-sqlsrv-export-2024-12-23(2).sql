@@ -40,7 +40,7 @@ EXEC ManageKaryawan @action_type = 'UPDATE',
                     @id_karyawan = 1, 
                     @nama_karyawan = 'John Smith';
 
-					EXEC ManageKaryawan @action_type = 'ADD',
+EXEC ManageKaryawan @action_type = 'ADD',
                     @id_departments = 1, 
                     @nama_karyawan = 'Jane Doe', 
                     @tanggal_lahir = '1990-01-01', 
