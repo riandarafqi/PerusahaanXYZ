@@ -33,9 +33,19 @@ WHERE IdKaryawan = @id_karyawan;    END
     BEGIN
         THROW 50000, 'Invalid action_type: valid values are ADD, UPDATE, DELETE', 1;
     END
-END;
+END
 
 EXEC ManageKaryawan @action_type = 'DELETE', @id_karyawan = 1;
 EXEC ManageKaryawan @action_type = 'UPDATE', 
                     @id_karyawan = 1, 
                     @nama_karyawan = 'John Smith';
+
+					EXEC ManageKaryawan @action_type = 'ADD',
+                    @id_departments = 1, 
+                    @nama_karyawan = 'Jane Doe', 
+                    @tanggal_lahir = '1990-01-01', 
+                    @nomor_telepon = '08123456789', 
+                    @alamat = 'Jl. Merdeka';
+
+
+Select * from Karyawan;

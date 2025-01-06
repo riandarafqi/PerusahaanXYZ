@@ -38,4 +38,13 @@ END;
 EXEC ManageKaryawan @action_type = 'DELETE', @id_karyawan = 1;
 EXEC ManageKaryawan @action_type = 'UPDATE', 
                     @id_karyawan = 1, 
-                    @nama_karyawan = 'John Smith';git p
+                    @nama_karyawan = 'John Smith';
+
+					EXEC ManageKaryawan @action_type = 'ADD',
+                    @id_departments = 1, 
+                    @nama_karyawan = 'Jane Doe', 
+                    @tanggal_lahir = '1990-01-01', 
+                    @nomor_telepon = '08123456789', 
+                    @alamat = 'Jl. Merdeka';
+
+

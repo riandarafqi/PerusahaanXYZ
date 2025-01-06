@@ -1,3 +1,5 @@
+
+
 CREATE TABLE "Departments"(
     "IdDepartments" BIGINT NOT NULL,
     "NamaDepartment" VARCHAR(255) NOT NULL,
@@ -6,15 +8,13 @@ CREATE TABLE "Departments"(
 ALTER TABLE
     "Departments" ADD CONSTRAINT "departments_iddepartments_primary" PRIMARY KEY("IdDepartments");
 CREATE TABLE "Karyawan"(
-    "IdKaryawan" BIGINT NOT NULL,
-    "IdDepartments" BIGINT NOT NULL,
-    "NamaKaryawan" VARCHAR(255) NOT NULL,
-    "TanggalLahir" DATE NOT NULL,
-    "Nomor_Telepon" INT NOT NULL,
-    "Alamat" VARCHAR(255) NOT NULL
+    IdKaryawan BIGINT IDENTITY(1,1) PRIMARY KEY,
+    IdDepartments BIGINT NOT NULL,
+    NamaKaryawan NVARCHAR(255) NOT NULL,
+    TanggalLahir DATE NOT NULL,
+    Nomor_Telepon NVARCHAR(16) NOT NULL,
+    Alamat NVARCHAR(255) NOT NULL
 );
-ALTER TABLE
-    "Karyawan" ADD CONSTRAINT "karyawan_idkaryawan_primary" PRIMARY KEY("IdKaryawan");
 CREATE TABLE "Jabatan"(
     "IdJabatan" BIGINT NOT NULL,
     "IdKaryawan" BIGINT NOT NULL,
@@ -38,3 +38,4 @@ ALTER TABLE
     "Gaji" ADD CONSTRAINT "gaji_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
 ALTER TABLE
     "Jabatan" ADD CONSTRAINT "jabatan_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
+
