@@ -1,3 +1,4 @@
+CREATE VIEW ViewKaryawanJabatanGaji AS
 SELECT 
     Karyawan.NamaKaryawan,
     Jabatan.NamaJabatan,
@@ -9,31 +10,33 @@ LEFT JOIN
     Jabatan ON Karyawan.IdKaryawan = Jabatan.IdKaryawan
 LEFT JOIN 
     Gaji ON Karyawan.IdKaryawan = Gaji.IdGaji
-ORDER BY 
-    Karyawan.NamaKaryawan ASC;
 
 
+CREATE VIEW ViewKaryawanNamaD AS
 SELECT * FROM Karyawan
 WHERE NamaKaryawan LIKE 'd%';
 
 
+CREATE VIEW ViewKaryawanAlamatBandung AS
 SELECT * 
-FROM Karyawan
-ORDER BY 
-  CASE 
-    WHEN Alamat LIKE '%Bandung%' THEN 1
-    ELSE 2
-  END;
+FROM Karyawan 
+    WHERE Alamat LIKE '%Bandung%'
 
 
+CREATE VIEW ViewKaryawanAlamatB AS
 SELECT * FROM Karyawan
 WHERE Alamat LIKE '%B%'
 
+
+CREATE VIEW ViewAlamatKaryawanDepartments AS
 SELECT Alamat FROM Karyawan
 UNION
-SELECT AlamatDepartments FROM Departments
-ORDER BY Alamat
+SELECT AlamatDepartments FROM Departments;
 
 
  
-
+SELECT * FROM ViewKaryawanJabatanGaji ORDER BY NamaKaryawan ASC;
+SELECT * FROM ViewKaryawanNamaD;
+SELECT * FROM ViewKaryawanAlamatBandung;
+SELECT * FROM ViewKaryawanAlamatB;
+SELECT * FROM ViewAlamatKaryawanDepartments;
