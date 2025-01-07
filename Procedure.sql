@@ -49,5 +49,5 @@ BEGIN
         END
     FROM "Gaji" g
     JOIN "Jabatan" j ON g."IdKaryawan" = j."IdKaryawan";
-END;
+END
 

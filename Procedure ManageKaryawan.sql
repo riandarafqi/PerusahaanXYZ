@@ -33,7 +33,7 @@ WHERE IdKaryawan = @id_karyawan;    END
     BEGIN
         THROW 50000, 'Invalid action_type: valid values are ADD, UPDATE, DELETE', 1;
     END
-END
+END;
 
 EXEC ManageKaryawan @action_type = 'DELETE', @id_karyawan = 1;
 EXEC ManageKaryawan @action_type = 'UPDATE', 
