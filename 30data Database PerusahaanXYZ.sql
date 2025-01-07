@@ -9,6 +9,8 @@ CREATE TABLE "Departments"(
 );
 ALTER TABLE
     "Departments" ADD CONSTRAINT "departments_iddepartments_primary" PRIMARY KEY("IdDepartments");
+
+
 CREATE TABLE "Karyawan"(
     "IdKaryawan" BIGINT NOT NULL,
     "IdDepartments" BIGINT NOT NULL,
@@ -19,6 +21,8 @@ CREATE TABLE "Karyawan"(
 );
 ALTER TABLE
     "Karyawan" ADD CONSTRAINT "karyawan_idkaryawan_primary" PRIMARY KEY("IdKaryawan");
+
+
 CREATE TABLE "Jabatan"(
     "IdJabatan" BIGINT NOT NULL,
     "IdKaryawan" BIGINT NOT NULL,
@@ -28,12 +32,16 @@ CREATE TABLE "Jabatan"(
 );
 ALTER TABLE
     "Jabatan" ADD CONSTRAINT "jabatan_idjabatan_primary" PRIMARY KEY("IdJabatan");
+
+
 CREATE TABLE "Gaji"(
     "IdGaji" BIGINT NOT NULL,
     "IdKaryawan" BIGINT NOT NULL,
     "JumlahGaji" BIGINT NOT NULL,
     "TanggalPengajian" DATE NOT NULL
 );
+
+
 ALTER TABLE
     "Gaji" ADD CONSTRAINT "gaji_idgaji_primary" PRIMARY KEY("IdGaji");
 ALTER TABLE
@@ -44,7 +52,16 @@ ALTER TABLE
     "Jabatan" ADD CONSTRAINT "jabatan_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
 
 
-
+CREATE TABLE "Absensi"(
+    "IdAbsensi" BIGINT NOT NULL,
+    "IdKaryawan" BIGINT NOT NULL,
+    "TanggalAbsensi" DATE NOT NULL,
+    "StatusAbsensi" NVARCHAR(255) CHECK ("StatusAbsensi" IN('Hadir', 'Izin', 'Sakit', 'Alpa')) NOT NULL
+);
+ALTER TABLE
+    "Absensi" ADD CONSTRAINT "absensi_idabsensi_primary" PRIMARY KEY("IdAbsensi");
+ALTER TABLE
+    "Absensi" ADD CONSTRAINT "absensi_idkaryawan_foreign" FOREIGN KEY("IdKaryawan") REFERENCES "Karyawan"("IdKaryawan");
 
 
 
@@ -178,7 +195,36 @@ INSERT INTO "Gaji" VALUES
 (29, 29, 8500000, '2024-01-01'),
 (30, 30, 9500000, '2024-01-01');
 
-SELECT * FROM Departments;
-SELECT * FROM Karyawan;
-SELECT * FROM Jabatan;
-SELECT * FROM Gaji;
+
+
+INSERT INTO "Absensi" VALUES
+(1, 1, '2024-01-01', 'Hadir'),
+(2, 2, '2024-02-05', 'Izin'),
+(3, 3, '2024-03-10', 'Hadir'),
+(4, 4, '2024-04-14', 'Sakit'),
+(5, 5, '2024-05-18', 'Alpa'),
+(6, 6, '2024-06-20', 'Hadir'),
+(7, 7, '2024-07-02', 'Hadir'),
+(8, 8, '2024-08-08', 'Sakit'),
+(9, 9, '2024-09-12', 'Hadir'),
+(10, 10, '2024-10-15', 'Alpa'),
+(11, 11, '2024-11-17', 'Izin'),
+(12, 12, '2024-12-19', 'Hadir'),
+(13, 13, '2025-01-02', 'Izin'),
+(14, 14, '2025-02-10', 'Hadir'),
+(15, 15, '2025-03-15', 'Sakit'),
+(16, 16, '2025-04-16', 'Hadir'),
+(17, 17, '2025-05-01', 'Hadir'),
+(18, 18, '2025-06-07', 'Alpa'),
+(19, 19, '2025-07-09', 'Izin'),
+(20, 20, '2025-08-22', 'Hadir'),
+(21, 21, '2025-09-25', 'Hadir'),
+(22, 22, '2025-10-30', 'Sakit'),
+(23, 23, '2025-11-02', 'Alpa'),
+(24, 24, '2025-12-03', 'Hadir'),
+(25, 25, '2025-01-18', 'Izin'),
+(26, 26, '2025-02-20', 'Hadir'),
+(27, 27, '2025-03-25', 'Sakit'),
+(28, 28, '2025-04-29', 'Hadir'),
+(29, 29, '2025-05-06', 'Izin'),
+(30, 30, '2025-06-11', 'Hadir');

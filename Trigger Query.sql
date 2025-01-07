@@ -59,3 +59,23 @@ BEGIN
         FROM deleted;
     END
 END;
+
+
+/* trigger potong gaji */
+
+CREATE TRIGGER PotongGajiAlpa
+ON Absensi
+AFTER INSERT
+AS
+BEGIN
+    -- Mengecek apakah ada record dengan status absensi 'Alpa'
+    IF EXISTS (SELECT 1 FROM inserted WHERE StatusAbsensi = 'Alpa')
+    BEGIN
+        -- Mengurangi gaji sebesar 10.000 untuk karyawan yang alpa
+        UPDATE Gaji
+        SET JumlahGaji = JumlahGaji - 10000
+        FROM Gaji
+        INNER JOIN inserted ON Gaji.IdKaryawan = inserted.IdKaryawan
+        WHERE inserted.StatusAbsensi = 'Alpa';
+    END
+END;
